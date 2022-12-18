@@ -2,43 +2,45 @@
 
 const fs = require('fs');
 const { query } = require('../db');
-const { getFileExtension } = require('../utils/files');
 // Utils and other abstracted logic would be imported here (to keep controllers clean)
 
-// TODO: Manual testing (possibly unit)
+// TODO: Add pagination (body params + dynamic PSQL) for this endpoint if we end up taking this UI approach...
 // Gets metadata on all files from the database to display in a FE table
 const getAllFiles  = async () => {
     // Get rows
-    const { rows } = await query('SELECT * FROM files'); // TODO: Add pagination (body params + dynamic PSQL) for this endpoint if we end up taking this UI approach...
+    const { rows } = await query('SELECT * FROM files');
     // Return metadata
     return rows;
 };
 
-// TODO: Manual testing (possibly unit)
-// Parses and saves files to the machine's file system (could also be cloud storage), then inserts file metadata into the DB
-const uploadFile = async (data) => {
-    const { fileName, fileBuffer } = data; // TODO: Implement 'multer' to write the file to disk
-    // Write the actual file to the file system (to not bog down the database)
-    await fs.writeFile(`/files/${fileName}`, fileBuffer);
+// Inserts file metadata into the DB for reference
+const saveMetadata = async (file) => {
+    const { filename } = file;
     // Retrieve file stats
-    const { size } = await fs.stat(`/files/${fileName}`);
+    const { size } = await fs.stat(`/files/${filename}`);
     // Save file metadata to the DB
-    const { rows } = await query('INSERT INTO files (file_name, size) VALUES ($1, $2)', [fileName, size]);
+    const { rows } = await query('INSERT INTO files (file_name, size) VALUES ($1, $2)', [filename, size]);
+    // TODO: Create new database table to store insights, so that we aren't later retrieving & parsing mountainous files from disk.
+
     // Return metadata
     return rows;
 };
 
-// TODO: Manual testing (possibly unit)
-// TODO: Handles different file formats and creates charts for the client
-// Retrieves a specific file as a binary string from the file system
-const retrieveFile = async ({ fileName }) => {
+// Creates charts for the client
+const getInsights = async ({ fileName }) => {
+    // TODO: Access insights table and return actionable data to the client.
+};
+
+// Retrieves a specific file as a binary string from the file system (data scientists may find this download feature useful)
+const downloadFile = async ({ fileName }) => {
     const buffer = await fs.readFile(`/files/${fileName}`);
-    res.status(200).send(buffer); // TODO: Return file/chart as required by the frontend
+    res.status(200).send(buffer);
 };
 
 // Export as many controllers as you like
 module.exports = {
     getAllFiles,
-    uploadFile,
-    retrieveFile,
+    saveMetadata,
+    getInsights,
+    downloadFile,
 };

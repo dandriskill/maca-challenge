@@ -7,19 +7,22 @@ Date: Tuesday, Dec 13th, 2022
 * Frontend displays insights in a meaningful way.
 
 # Initial Scoping
-Scoping Key: (planned) (actual)
+Scoping-Time Key: (planned) (actual)
 ## App Implementation
 * Create client and server that can communicate with one another (30 min) (~30 min)
-* Connect server to a working database and design the database schema according to expected data (1.5 hours) ()
-* Build backend route infrastructure and frontend component system (30 minutes) ()
+* Connect server to a working database and design the database schema according to expected data (1.5 hours) (~1 hour)
+* Build backend route infrastructure and frontend component system (30 min) (~30 min)
+* Write unit tests (30 min) ()
 
 ## Uploads
-* BE endpoint that receives buffers and file names, returning a success or failure response (30 min) ()
-* React form component for uploading two or more files loading/success states (1 hour) ()
+* BE endpoint that receives buffers and file names, returning a success or failure response (30 min) (~40 min)
+* React form component for uploading files with loading/success states (1 hour) ()
+* Write unit tests (30 min) ()
 
 ## Display Insights
 * Build BE insights/charts generator invoked by a GET endpoint (used after successful upload) (45 min) ()
 * Program React to fetch insights once they are ready and display them. Build FE routes infrastructure if needed. (1 hour) ()
+* Write unit tests (1.5 hours) ()
 
 ## What I Would Build if I Had More Time
 * Notification for when an upload is complete (no matter where the user is in the app) with a page refresh option to refresh available data insights.
