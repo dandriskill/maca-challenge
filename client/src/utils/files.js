@@ -1,5 +1,16 @@
-// TODO: Write file extension white-list algorithm for file input validation (currently uncertain of all the file inputs to allow)
 // TODO: Write unit tests
-export const getFileExtension = () => {
+export const validateFileExtension = (fileName) => {
+    if (!fileName || typeof fileName !== 'string') {
+        return false;
+    }
+
+    const allowedExtensions = ['csv', 'json'];
+    const fileNameArr = fileName.split('.');
+    const fileExtension = fileNameArr[fileNameArr.length - 1].toLowerCase();
+
+    if (!allowedExtensions.includes(fileExtension)) {
+        return false;
+    }
     
+    return true;
 };

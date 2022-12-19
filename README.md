@@ -15,18 +15,19 @@ Scoping-Time Key: (planned) (actual)
 * Write unit tests (30 min) ()
 
 ## Uploads
-* BE endpoint that receives buffers and file names, returning a success or failure response (30 min) (~40 min)
-* React form component for uploading files with loading/success states (1 hour) ()
+* BE endpoint that receives buffers and file names, returning a success or failure response (30 min) (~10 min)
+* React form component for uploading files with loading/success states (1 hour) (~15 min so far)
+* BE controller logic to parse buffers into file metadata and insights (1.5 hours) (~1.5 hours untested)
 * Write unit tests (30 min) ()
 
 ## Display Insights
 * Build BE insights/charts generator invoked by a GET endpoint (used after successful upload) (45 min) ()
-* Program React to fetch insights once they are ready and display them. Build FE routes infrastructure if needed. (1 hour) ()
+* Program React to fetch insights once they are ready and display them. (1 hour) ()
 * Write unit tests (1.5 hours) ()
 
 ## What I Would Build if I Had More Time
 * Notification for when an upload is complete (no matter where the user is in the app) with a page refresh option to refresh available data insights.
-* 
+* Separate 'Insights Service' and job queue so the user doesn't have to wait as long on the server to parse insights. Could also take care of merging insights from duplicate deals/leads. Would also be better-positioned to calculate metrics like 'Top 5 Performing Industries Based on Deal Amount.'
 
 # Instructions
 
