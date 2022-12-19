@@ -1,22 +1,49 @@
-const { fileTypeFromBuffer } = import('file-type');
-const { parse } = require('csv-parse/sync');
+const fs = require('fs');
+const { promisify } = require('util');
+const readFile = promisify(fs.readFile);
+const { parse } = require('csv-parse');
 const Decimal = require('decimal.js');
 
-const parseCSVBuffer = (buffer) => {
-    // Parse buffer to CSV
-    return parse(buffer, {
-        columns: true,
-        skip_empty_lines: true,
+// TODO: Figure out why 'num_no_contact_info' in JSON is larger than in CSV (start uploading smaller files for manual sum)
+
+const getFileExtension = (fileName) => {
+    const fileNameArr = fileName.split('.');
+    return fileNameArr[fileNameArr.length - 1].toLowerCase();
+};
+
+const parseCSV = (fileName) => {
+    // Return in the form of a promise
+    return new Promise((resolve, reject) => {
+        // Create array for parsed line items
+        const lineItems = [];
+        // Create file read stream
+        fs.createReadStream(`files/${fileName}`)
+            // Parse
+            .pipe(parse({delimiter: ','}))
+            // Push to line items array
+            .on('data', function(row) {
+                lineItems.push(row);        
+            })
+            // Return line items
+            .on('end',function() {
+                resolve(lineItems);
+            })
+            .on('error', function(err) {
+                reject(err);
+            });
     });
 };
 
-const parseJSONBuffer = (buffer) => {
-    // Parse buffer to JSON
-    return JSON.stringify(Buffer.from(buffer));
+const parseJSON = async (fileName) => {
+    // Get file
+    const file = await readFile(`files/${fileName}`)
+    // Parse JSON file
+    return JSON.parse(file);
 };
 
 // Adds all deal amounts precisely and converts to string
 const reduceDealAmounts = (dealAmounts) => {
+    // Reduce the sum of all deal amounts (float-parsed), using Decimal for precision
     return dealAmounts.reduce((acc, cur) => {
         const a = new Decimal(acc);
         const c = new Decimal(cur);
@@ -25,7 +52,7 @@ const reduceDealAmounts = (dealAmounts) => {
 };
 
 // Parsing insights here avoids retrieving & parsing multiple large files whenever a user hits the insights dashboard.
-const parseFileInsights = async (buffer) => {
+const parseFileInsights = async (fileName) => {
     // Declare parsed file placholder in memory
     let fileArray;
     // Create insights object
@@ -36,35 +63,39 @@ const parseFileInsights = async (buffer) => {
         dealsTotal: null,
     };
     // Determine file extension
-    const { ext } = await fileTypeFromBuffer(buffer);
+    const ext = getFileExtension(fileName);
     // Parse CSV or JSON
     if (ext === 'csv') {
-        // Parse CSV buffer into an array
-        fileArray = parseCSVBuffer(buffer);
+        // Declare index constants
+        const EMAIL_INDEX = 1;
+        const PHONE_INDEX = 2;
+        const ADDRESS_INDEX = 3;
+        const DEAL_VALUE_INDEX = 4;
+        // Parse CSV into an array
+        fileArray = await parseCSV(fileName);
         // Get/Set number of lines without an address, phone, or email
         insights.numNoContactInfo = fileArray.filter(line => {
-            // 0: email, 1: phone, 2: address
-            if (!line[0] && !line[1] && !line[2]) {
+            if (!line[EMAIL_INDEX] && !line[PHONE_INDEX] && !line[ADDRESS_INDEX]) {
                 return true;
             }
             return false;
         }).length;
         // Get/Set number of lines with no deal
-        insights.numNoContactInfo = fileArray.filter(line => {
+        insights.numNoDeal = fileArray.filter(line => {
             // 4: deal_value
-            if (!line[4]) {
+            if (!line[DEAL_VALUE_INDEX]) {
                 return true;
             }
             return false;
         }).length;
         // Get/Set total deals amount for this file (remove '$' and parse float, then change back to a string)
         const dealAmounts = fileArray
-            .filter(line => line[4])
-            .map(line => parseFloat(line[4].replace(/\$/g, '')));
+            .filter(line => line[DEAL_VALUE_INDEX])
+            .map(line => parseFloat(line[DEAL_VALUE_INDEX].replace(/\$/g, '')));
         insights.dealsTotal = reduceDealAmounts(dealAmounts);
     } else if (ext === 'json') {
-        // Parse JSON buffer into an array
-        fileArray = parseJSONBuffer(buffer);
+        // Parse JSON into an array
+        fileArray = await parseJSON(fileName);
         // Get/Set number of lines without an address, phone, or email
         insights.numNoContactInfo = fileArray.filter(line => {
             if (!line.email && !line.phone && !line.address) {
@@ -73,7 +104,7 @@ const parseFileInsights = async (buffer) => {
             return false;
         }).length;
         // Get/Set number of lines with no deal
-        insights.numNoContactInfo = fileArray.filter(line => {
+        insights.numNoDeal = fileArray.filter(line => {
             if (!line.deal_value) {
                 return true;
             }

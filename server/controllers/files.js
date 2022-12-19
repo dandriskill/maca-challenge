@@ -1,5 +1,8 @@
 // Controller files contain service business logic and database interactions
 const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util');
+const stat = promisify(fs.stat);
 const { query } = require('../db');
 const { parseFileInsights } = require('../utils/files');
 // Utils and other abstracted logic would be imported here (to keep controllers clean)
@@ -27,14 +30,14 @@ const getAllFiles  = async ({ pageSize, currentPage }) => {
 
 // Inserts file metadata into the DB for future reference
 const saveMetadata = async (file) => {
-    const { filename, buffer } = file;
-    if (!file || !filename || !buffer) {
+    const { filename } = file;
+    if (!file || !filename) {
         throw new Error('File data not provided.');
     }
     // Retrieve file stats
-    const { size } = await fs.stat(`/files/${filename}`);
+    const { size } = await stat(`files/${filename}`);
     // Get file insights
-    const { numLines, numNoContactInfo, numNoDeal, dealsTotal } = parseFileInsights(buffer);
+    const { numLines, numNoContactInfo, numNoDeal, dealsTotal } = await parseFileInsights(filename);
     // Save file metadata to the DB (in the future, we would want to include logic to merge metadata for duplicate companies)
     const { rows } = await query(
         'INSERT INTO files (file_name, size, num_lines, num_no_contact_info, num_no_deal, deals_total) VALUES ($1, $2, $3, $4, $5, $6)',

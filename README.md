@@ -17,13 +17,13 @@ Scoping-Time Key: (planned) (actual)
 ## Uploads
 * BE endpoint that receives buffers and file names, returning a success or failure response (30 min) (~10 min)
 * React form component for uploading files with loading/success states (1 hour) (~15 min so far)
-* BE controller logic to parse buffers into file metadata and insights (1.5 hours) (~1.5 hours untested)
+* BE controller logic to parse buffers into file metadata and insights (1.5 hours) (~2.5 hours so far)
 * Write unit tests (30 min) ()
 
 ## Display Insights
 * Build BE insights/charts generator invoked by a GET endpoint (used after successful upload) (45 min) ()
 * Program React to fetch insights once they are ready and display them. (1 hour) ()
-* Write unit tests (1.5 hours) ()
+* Write unit tests (30 min) ()
 
 ## What I Would Build if I Had More Time
 * Notification for when an upload is complete (no matter where the user is in the app) with a page refresh option to refresh available data insights.

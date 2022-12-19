@@ -1,5 +1,5 @@
 -- Storing file metadata, instead of the file itself, boosts database performance
-CREATE TABLE files (
+CREATE TABLE IF NOT EXISTS files (
     id serial PRIMARY KEY,
     file_name text NOT NULL,
     size bigint NOT NULL,

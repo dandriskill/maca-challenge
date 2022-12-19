@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { validateFileExtension } from '../utils/files';
+import PlatformService from '../api/PlatformService';
 
 // TODO: Utilize MUI components
 function FileUpload() {
@@ -33,10 +34,10 @@ function FileUpload() {
     const formData = new FormData();
     formData.append('file', file);
 
-    // Send the POST request to the file upload endpoint
-    fetch('/files', {
-      method: 'POST',
-      body: formData,
+    PlatformService.post(`/files`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
     })
       .then((response) => response.text())
       .then((data) => {
@@ -54,7 +55,9 @@ function FileUpload() {
   // TODO: Add success message on successful upload (users can upload on 'isUploading' and on 'isSuccess')
   return (
     <form onSubmit={handleSubmit}>
+      {status === 'isValidating' && 'Uploading...'}
       <input type="file" name="file" onChange={handleChange} />
+      {error}
       <button type="submit">Upload</button>
     </form>
   );
