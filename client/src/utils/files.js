@@ -14,3 +14,11 @@ export const validateFileExtension = (fileName) => {
     
     return true;
 };
+
+export const parseDate = (strDate) => {
+    return new Date(Date.parse(strDate)).toLocaleDateString();
+};
+
+export const parseMoneyString = (v) => {
+    return parseFloat(v.replaceAll(/\$|,/g, ''));
+};

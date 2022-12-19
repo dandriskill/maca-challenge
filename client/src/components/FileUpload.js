@@ -1,32 +1,33 @@
 import React, { useState } from 'react';
 import { validateFileExtension } from '../utils/files';
 import PlatformService from '../api/PlatformService';
+import {CircularProgress, Box, Typography, Button } from '@mui/material';
 
-// TODO: Utilize MUI components
 function FileUpload() {
   const [file, setFile] = useState(null);
-  const [error, setError] = useState(null);
-  const [status, setStatus] = useState('isUploading'); // isUploading, isValidating, isSuccess
+  const [status, setStatus] = useState('isUploading'); // isUploading, isValidating, isSuccess, isError
 
   const handleChange = (e) => {
+    setStatus('isUploading');
     setFile(e.target.files[0]);
-    setError(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     setStatus('isValidating');
 
     // Display error if no file is selected
     if (!file) {
-      setError('No file selected.');
+      setStatus('isError');
+      alert('No file selected!');
       return;
     }
 
     // Check file extension against a whitelist of extensions
     if (!validateFileExtension(file.name)) {
-      setError('Incorrect file extension.');
+      setStatus('isError');
+      alert('Incorrect file extension.');
       return;
     }
 
@@ -34,32 +35,36 @@ function FileUpload() {
     const formData = new FormData();
     formData.append('file', file);
 
-    PlatformService.post(`/files`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        console.log(data);
-        setStatus('isSuccess');
-      })
-      .catch(err => {
-        setError('Something went wrong.');
-        setStatus('isUploading');
+    try {
+      await PlatformService.post('/files', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
       });
+      setStatus('isSuccess');
+    } catch (error) {
+      console.log(error);
+      setStatus('isError');
+      alert('Something went wrong.');
+    }
   };
 
-  // TODO: Add spinner when validating, remove on 'isSuccess' and 'isUploading'
-  // TODO: Add error message below the form input when there is an error
-  // TODO: Add success message on successful upload (users can upload on 'isUploading' and on 'isSuccess')
   return (
-    <form onSubmit={handleSubmit}>
-      {status === 'isValidating' && 'Uploading...'}
-      <input type="file" name="file" onChange={handleChange} />
-      {error}
-      <button type="submit">Upload</button>
-    </form>
+    <Box>
+      <form onSubmit={handleSubmit} style={{ paddingTop: '20px' }}>
+        {status === 'isValidating' && <CircularProgress />}
+        <input type="file" name="file" onChange={handleChange} />
+        {status === 'isError' && (
+          <Typography variant="subtitle1" style={{ padding: '20px 0'}}>Something went wrong.</Typography>
+        )}
+        {status === 'isSuccess' && (
+          <Typography variant="subtitle1" style={{ padding: '20px 0'}}>Success!</Typography>
+        )}
+        <Button type="submit" variant="contained">
+          Upload
+        </Button>
+      </form>
+    </Box>
   );
 }
 

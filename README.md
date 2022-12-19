@@ -9,25 +9,32 @@ Date: Tuesday, Dec 13th, 2022
 # Initial Scoping
 Scoping-Time Key: (planned) (actual)
 ## App Implementation
-* Create client and server that can communicate with one another (30 min) (~30 min)
-* Connect server to a working database and design the database schema according to expected data (1.5 hours) (~1 hour)
-* Build backend route infrastructure and frontend component system (30 min) (~30 min)
+* Create client and server that can communicate with one another (30 min) (<30 min)
+* Connect server to a working database and design the database schema according to expected data (1.5 hours) (<1 hour)
+* Build backend route infrastructure and frontend component system (30 min) (20 min)
 * Write unit tests (30 min) ()
 
 ## Uploads
 * BE endpoint that receives buffers and file names, returning a success or failure response (30 min) (~10 min)
-* React form component for uploading files with loading/success states (1 hour) (~15 min so far)
-* BE controller logic to parse buffers into file metadata and insights (1.5 hours) (~2.5 hours so far)
+* React form component for uploading files with loading/success states (1 hour) (30 min)
+* BE controller logic to parse buffers into file metadata and insights (1.5 hours) (3 hours)
 * Write unit tests (30 min) ()
 
 ## Display Insights
-* Build BE insights/charts generator invoked by a GET endpoint (used after successful upload) (45 min) ()
-* Program React to fetch insights once they are ready and display them. (1 hour) ()
+* Build BE insights/charts generator invoked by a GET endpoint (used after successful upload) (45 min) (1 hour)
+* Program React to fetch insights once they are ready and display them. (1 hour) (1.5 hours)
 * Write unit tests (30 min) ()
 
 ## What I Would Build if I Had More Time
 * Notification for when an upload is complete (no matter where the user is in the app) with a page refresh option to refresh available data insights.
 * Separate 'Insights Service' and job queue so the user doesn't have to wait as long on the server to parse insights. Could also take care of merging insights from duplicate deals/leads. Would also be better-positioned to calculate metrics like 'Top 5 Performing Industries Based on Deal Amount.'
+* Ability to view a summary of all files that have been uploaded (paginated table).
+* Ability to download files that have been uploaded to the system.
+* More interactive charts (doughnuts for each revenue report showing percent of contacts with deals and percent with contact info, if it would be useful)
+* Much better styling on the frontend.
+* Making chart data more dynamic (for example, only showing the last ten revenue reports, so the chart doesn't get too full)
+* Possibly abstract more logic from FE components.
+* Come up with more robust data options + insights.
 
 # Instructions
 
@@ -53,3 +60,14 @@ While in the project's root directory, `cd server`, then `node server.js`. The d
 
 ## Start the Client
 While in the project's root directory, `cd client`, then `npm run start`.
+
+## Create Mock Data With Mockaroo for Uploads
+Head to Mockaroo [https://mockaroo.com/] and create the following fields:
+* id (row number)
+* email (Type: Email Address, any blank ratio)
+* phone (Type: Phone, any blank ratio)
+* address (Type: Address, any blank ratio)
+* deal_value (Type: Money, any range, any blank ratio) (most important field)
+* industry (OPTIONAL, Type: any, any blank ratio)
+
+`.csv` and `.json` formats allowed by this app. More to come!

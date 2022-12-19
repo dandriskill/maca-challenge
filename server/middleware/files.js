@@ -1,6 +1,5 @@
 const multer = require('multer');
 
-// TODO: Mock multer and write unit tests to confirm returned object's shape
 // Utilizes the 'multer' library to save files to disk (database storage not as performant).
 const uploadFile = () => {
     const storage = multer.diskStorage({

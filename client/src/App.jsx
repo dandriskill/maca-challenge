@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import AppRouter from './routes';
 
 const App = () => {
   return (
-    <div className="container">
+    <Fragment>
       <AppRouter />
-    </div>
+    </Fragment>
   );
 };
 
