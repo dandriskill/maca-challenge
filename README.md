@@ -12,18 +12,18 @@ Scoping-Time Key: (planned) (actual)
 * Create client and server that can communicate with one another (30 min) (<30 min)
 * Connect server to a working database and design the database schema according to expected data (1.5 hours) (<1 hour)
 * Build backend route infrastructure and frontend component system (30 min) (20 min)
-* Write unit tests (30 min) ()
 
 ## Uploads
 * BE endpoint that receives buffers and file names, returning a success or failure response (30 min) (~10 min)
 * React form component for uploading files with loading/success states (1 hour) (30 min)
 * BE controller logic to parse buffers into file metadata and insights (1.5 hours) (3 hours)
-* Write unit tests (30 min) ()
 
 ## Display Insights
 * Build BE insights/charts generator invoked by a GET endpoint (used after successful upload) (45 min) (1 hour)
 * Program React to fetch insights once they are ready and display them. (1 hour) (1.5 hours)
-* Write unit tests (30 min) ()
+
+## Unit Tests
+(1 hour) ()
 
 ## What I Would Build if I Had More Time
 * Notification for when an upload is complete (no matter where the user is in the app) with a page refresh option to refresh available data insights.
@@ -35,9 +35,14 @@ Scoping-Time Key: (planned) (actual)
 * Making chart data more dynamic (for example, only showing the last ten revenue reports, so the chart doesn't get too full)
 * Possibly abstract more logic from FE components.
 * Come up with more robust data options + insights.
+* Docker, CI/CD, etc.
+
+## Where I Struggled
+* I have not worked extensively with the file system, so it was a learning experience when I had to switch from using Buffers to file paths when I realized that made more sense. Half of my codebase was set up for Buffers, and the other half was file-system-based, so that was a painful, costly reversal.
+* I was really hoping to have more charts (there is data for it), but I've already spent 7 hours on this and wanted to make sure I had a functioning app. Getting the frontend to behave can be much more costly on scope as well, especially when using heavy data transformations to generate charts. The possibility of weird bugs is high.
+* I spent too much time on features I thought I would have time for but ended up deleting (file viewer, downloader).
 
 # Instructions
-
 ## Create the DB
 We are using a PostgreSQL database. Ensure PSQL is on your machine and login.
 
@@ -71,3 +76,5 @@ Head to Mockaroo [https://mockaroo.com/] and create the following fields:
 * industry (OPTIONAL, Type: any, any blank ratio)
 
 `.csv` and `.json` formats allowed by this app. More to come!
+
+Please reach out if something is not working for you. I did my best to think of everything you need to know to run this.
