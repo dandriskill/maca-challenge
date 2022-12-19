@@ -18,7 +18,7 @@ router.route('/')
         }
     })
     // Upload a file to disk storage, save metadata to the database
-    .post(uploadFile.single('file'), async (req, res, next) => {
+    .post(uploadFile().single('file'), async (req, res, next) => {
         try {
             const result = await saveMetadata(req.file);
             res.status(200).json({

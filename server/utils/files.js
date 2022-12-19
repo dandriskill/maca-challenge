@@ -1,10 +1,10 @@
-const { fileTypeFromBuffer } = require('file-type');
-const csv = require('csv-parse/lib/sync');
+const { fileTypeFromBuffer } = import('file-type');
+const { parse } = require('csv-parse/sync');
 const Decimal = require('decimal.js');
 
 const parseCSVBuffer = (buffer) => {
     // Parse buffer to CSV
-    return csv(buffer, {
+    return parse(buffer, {
         columns: true,
         skip_empty_lines: true,
     });
