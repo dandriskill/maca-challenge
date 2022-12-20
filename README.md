@@ -36,6 +36,7 @@ Scoping-Time Key: (planned) (actual)
 * Abstract more logic from FE components?
 * Come up with more robust data options + insights.
 * Reduce unnecessary API requests to the server as a result of React hook re-renders.
+* Replace native frontend alerts with toast alerts.
 * Docker, CI/CD, etc.
 
 ## Where I Struggled
