@@ -52,6 +52,11 @@ function FileUpload() {
   return (
     <Box>
       <form onSubmit={handleSubmit} style={{ paddingTop: '20px' }}>
+        <div>
+          <Typography variant="subtitle1" style={{ padding: '20px 0'}}>
+            Upload <strong>.csv</strong> or <strong>.json</strong> files...
+          </Typography>
+        </div>
         {status === 'isValidating' && <CircularProgress />}
         <input type="file" name="file" onChange={handleChange} />
         {status === 'isError' && (

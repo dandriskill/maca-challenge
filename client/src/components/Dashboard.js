@@ -42,7 +42,7 @@ function Dashboard() {
     // Fetch from the insights endpoint
     useEffect(() => {
         (async () => {
-            if (!filesStore.insights.length) {
+            if (isLoading && !filesStore.insights.length) {
                 try {
                     // API request for insights
                     const { data } = await PlatformService.get('/files/insights');
@@ -59,7 +59,7 @@ function Dashboard() {
                 setIsLoading(false);
             }
         })();
-    }, [filesStore]);
+    }, [filesStore, isLoading]);
 
     // Bar chart config
     useEffect(() => {

@@ -77,4 +77,8 @@ Head to Mockaroo [https://mockaroo.com/] and create the following fields:
 
 `.csv` and `.json` formats allowed by this app. More to come!
 
+Ensure there is a folder called 'files' under '/server'. Node needs this location available to write via file system.
+
+If your data doesn't show up in the dashboard after uploading, hit the 'REFRESH' button under the chart.
+
 Please reach out if something is not working for you. I did my best to think of everything you need to know to run this.
