@@ -25,7 +25,7 @@ Scoping-Time Key: (planned) (actual)
 ## Unit Tests
 (1 hour) ()
 
-## What I Would Build if I Had More Time
+## What I Would Do if I Had More Time
 * Notification for when an upload is complete (no matter where the user is in the app) with a page refresh option to refresh available data insights.
 * Separate 'Insights Service' and job queue so the user doesn't have to wait as long on the server to parse insights. Could also take care of merging insights from duplicate deals/leads. Would also be better-positioned to calculate metrics like 'Top 5 Performing Industries Based on Deal Amount.'
 * Ability to view a summary of all files that have been uploaded (paginated table).
@@ -35,6 +35,7 @@ Scoping-Time Key: (planned) (actual)
 * Making chart data more dynamic (for example, only showing the last ten revenue reports, so the chart doesn't get too full)
 * Possibly abstract more logic from FE components.
 * Come up with more robust data options + insights.
+* Reduce unnecessary API requests to the server as a result of React hook re-renders.
 * Docker, CI/CD, etc.
 
 ## Where I Struggled

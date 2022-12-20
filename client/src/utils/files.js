@@ -1,4 +1,3 @@
-// TODO: Write unit tests
 export const validateFileExtension = (fileName) => {
     if (!fileName || typeof fileName !== 'string') {
         return false;
@@ -20,5 +19,5 @@ export const parseDate = (strDate) => {
 };
 
 export const parseMoneyString = (v) => {
-    return parseFloat(v.replaceAll(/\$|,/g, ''));
+    return parseFloat(v.replace(/\$|,/g, ''));
 };
