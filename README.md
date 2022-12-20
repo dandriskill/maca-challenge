@@ -16,7 +16,7 @@ Scoping-Time Key: (planned) (actual)
 ## Uploads
 * BE endpoint that receives files, returning a success or failure response (30 min) (~10 min)
 * React form component for uploading files with loading/success states (1 hour) (30 min)
-* BE controller logic to store files to disk and parse file metadata and insights (1.5 hours) (3 hours, due to switching from buffers to the file system halfway through...)
+* BE controller logic to store files to disk and parse file metadata and insights (1.5 hours) (2 hours, due to switching from buffers to the file system halfway through...)
 
 ## Display Insights
 * Build BE insights/charts generator invoked by a GET endpoint (used after successful upload) (45 min) (~1 hour)
@@ -40,7 +40,7 @@ Scoping-Time Key: (planned) (actual)
 
 ## Where I Struggled
 * I have not worked extensively with the file system, so it was a learning experience when I had to switch from using Buffers to file paths when I realized it made more sense. Half of my codebase was set up for Buffers, and the other half was using the file system, so that was a painful, costly reversal.
-* I was really hoping to have more charts (there is data for it), but I've already spent 7 hours on this and wanted to make sure I had a functioning app. Getting the frontend to behave can be much more costly on scope as well, especially when using lots of data to generate charts. The risk of weird bugs is high.
+* I was really hoping to have more charts (there is data for it), but I've already spent about 7 hours on this and wanted to make sure I had a functioning app. Getting the frontend to behave can be much more costly on scope as well, especially when using lots of data to generate charts. The risk of weird bugs is high.
 * I spent too much time on features I thought I would have time for but ended up removing (file viewer, downloader, doughnut charts).
 
 # Instructions
