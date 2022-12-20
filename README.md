@@ -14,34 +14,34 @@ Scoping-Time Key: (planned) (actual)
 * Build backend route infrastructure and frontend component system (30 min) (20 min)
 
 ## Uploads
-* BE endpoint that receives buffers and file names, returning a success or failure response (30 min) (~10 min)
+* BE endpoint that receives files, returning a success or failure response (30 min) (~10 min)
 * React form component for uploading files with loading/success states (1 hour) (30 min)
-* BE controller logic to parse buffers into file metadata and insights (1.5 hours) (3 hours)
+* BE controller logic to store files to disk and parse file metadata and insights (1.5 hours) (3 hours, due to switching from buffers to the file system halfway through...)
 
 ## Display Insights
-* Build BE insights/charts generator invoked by a GET endpoint (used after successful upload) (45 min) (1 hour)
-* Program React to fetch insights once they are ready and display them. (1 hour) (1.5 hours)
+* Build BE insights/charts generator invoked by a GET endpoint (used after successful upload) (45 min) (~1 hour)
+* Program React to fetch insights once they are ready and display them. (1 hour) (1.5 hours, due to work completed for features I ended up removing)
 
 ## Unit Tests
-(1 hour) ()
+(1 hour) (~1 hour)
 
 ## What I Would Do if I Had More Time
 * Notification for when an upload is complete (no matter where the user is in the app) with a page refresh option to refresh available data insights.
 * Separate 'Insights Service' and job queue so the user doesn't have to wait as long on the server to parse insights. Could also take care of merging insights from duplicate deals/leads. Would also be better-positioned to calculate metrics like 'Top 5 Performing Industries Based on Deal Amount.'
 * Ability to view a summary of all files that have been uploaded (paginated table).
 * Ability to download files that have been uploaded to the system.
-* More interactive charts (doughnuts for each revenue report showing percent of contacts with deals and percent with contact info, if it would be useful)
+* More interactive charts (doughnuts for each revenue report showing percent of contacts with deals and percent with contact info, if it would be useful...)
 * Much better styling on the frontend.
-* Making chart data more dynamic (for example, only showing the last ten revenue reports, so the chart doesn't get too full)
-* Possibly abstract more logic from FE components.
+* Make chart data more dynamic (for example, only showing the last ten revenue reports, so the chart doesn't get too full)
+* Abstract more logic from FE components?
 * Come up with more robust data options + insights.
 * Reduce unnecessary API requests to the server as a result of React hook re-renders.
 * Docker, CI/CD, etc.
 
 ## Where I Struggled
-* I have not worked extensively with the file system, so it was a learning experience when I had to switch from using Buffers to file paths when I realized that made more sense. Half of my codebase was set up for Buffers, and the other half was file-system-based, so that was a painful, costly reversal.
-* I was really hoping to have more charts (there is data for it), but I've already spent 7 hours on this and wanted to make sure I had a functioning app. Getting the frontend to behave can be much more costly on scope as well, especially when using heavy data transformations to generate charts. The possibility of weird bugs is high.
-* I spent too much time on features I thought I would have time for but ended up deleting (file viewer, downloader).
+* I have not worked extensively with the file system, so it was a learning experience when I had to switch from using Buffers to file paths when I realized it made more sense. Half of my codebase was set up for Buffers, and the other half was using the file system, so that was a painful, costly reversal.
+* I was really hoping to have more charts (there is data for it), but I've already spent 7 hours on this and wanted to make sure I had a functioning app. Getting the frontend to behave can be much more costly on scope as well, especially when using lots of data to generate charts. The risk of weird bugs is high.
+* I spent too much time on features I thought I would have time for but ended up removing (file viewer, downloader, doughnut charts).
 
 # Instructions
 ## Create the DB

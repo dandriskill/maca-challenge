@@ -1,42 +1,9 @@
-const fs = require('fs');
-const { promisify } = require('util');
-const readFile = promisify(fs.readFile);
-const { parse } = require('csv-parse');
 const Decimal = require('decimal.js');
+const { parseCSV, parseJSON } = require('./parsers.js');
 
 const getFileExtension = (fileName) => {
     const fileNameArr = fileName.split('.');
     return fileNameArr[fileNameArr.length - 1].toLowerCase();
-};
-
-const parseCSV = (fileName) => {
-    // Return in the form of a promise
-    return new Promise((resolve, reject) => {
-        // Create array for parsed line items
-        const lineItems = [];
-        // Create file read stream
-        fs.createReadStream(`files/${fileName}`)
-            // Parse
-            .pipe(parse({delimiter: ','}))
-            // Push to line items array
-            .on('data', function(row) {
-                lineItems.push(row);        
-            })
-            // Return line items
-            .on('end',function() {
-                resolve(lineItems);
-            })
-            .on('error', function(err) {
-                reject(err);
-            });
-    });
-};
-
-const parseJSON = async (fileName) => {
-    // Get file
-    const file = await readFile(`files/${fileName}`)
-    // Parse JSON file
-    return JSON.parse(file);
 };
 
 // Removes '$' symbol from string and returns as type 'float'
@@ -54,7 +21,6 @@ const reduceDealAmounts = (dealAmounts) => {
     }, 0);
 };
 
-// TODO: Write unit tests to confirm output for all file-types
 // Parsing insights here avoids retrieving & parsing multiple large files whenever a user hits the insights dashboard.
 const parseFileInsights = async (fileName) => {
     // Declare parsed file placholder in memory
@@ -130,8 +96,6 @@ const parseFileInsights = async (fileName) => {
 
 module.exports = {
     getFileExtension,
-    parseCSV,
-    parseJSON,
     parseCashAmount,
     reduceDealAmounts,
     parseFileInsights,
